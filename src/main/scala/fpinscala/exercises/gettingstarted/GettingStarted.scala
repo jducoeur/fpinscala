@@ -136,7 +136,24 @@ object PolymorphicFunctions:
 
   // Exercise 2: Implement a polymorphic function to check whether
   // an `Array[A]` is sorted
-  def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = ???
+  def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = {
+    val len = as.length
+    
+    if len == 0 || len == 1 then true
+    else {
+      @tailrec
+      def loop(pos: Int): Boolean =
+        if pos + 1 == len then true
+        else {
+          val l = as(pos)
+          val r = as(pos + 1)
+          if (gt(r, l)) loop(pos + 1)
+          else false
+        }
+        
+      loop(0)
+    }
+  }
 
   // Polymorphic functions are often so constrained by their type
   // that they only have one implementation! Here's an example:
